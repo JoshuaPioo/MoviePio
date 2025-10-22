@@ -3,15 +3,14 @@ import Sidebar from '../components/Sidebar.jsx';
 import { Play, Film } from 'lucide-react';
 import aot from '../assets/aot.jpg';
 
-
 function Home() {
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen w-screen overflow-hidden">
       <Sidebar />
 
       {/* Main Content */}
       <div
-        className="flex-grow p-10 overflow-y-auto   text-white  inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80 " 
+        className="relative flex-grow text-white flex flex-col justify-between p-10"
         style={{
           backgroundImage: `url(${aot})`,
           backgroundSize: 'cover',
@@ -19,12 +18,15 @@ function Home() {
           backgroundRepeat: 'no-repeat',
         }}
       >
+        {/* 🟢 Black gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
 
-        <div className="max-w-4xl">
+        {/* Main content */}
+        <div className="relative z-10 max-w-5xl">
           <h2 className="text-6xl font-extrabold leading-tight mb-6">
-           If you don't fight, <br/> you can't win!
+            If you don't fight, <br /> you can't win!
           </h2>
-          <p className=" text-lg mb-8">
+          <p className="text-lg mb-4">
             Years after a group of heroes defeated a horde of monsters that
             terrorized Millfield, the town is thrown into chaos once again when
             the creatures return. The townsfolk must band together to fight for
@@ -34,7 +36,7 @@ function Home() {
 
           {/* Rating */}
           <div className="flex items-center mb-6">
-            <span className=" mr-2 text-xl">★★★★☆</span>
+            <span className="mr-2 text-xl">★★★★☆</span>
             <p className="text-gray-400 text-sm">4/5 stars rating</p>
           </div>
 
@@ -54,23 +56,23 @@ function Home() {
             <p className="cursor-pointer hover:text-white">Season 2</p>
             <p className="cursor-pointer hover:text-white">Season 3</p>
           </div>
+        </div>
 
-          {/* Episodes */}
-          <div className="flex gap-5 overflow-x-auto pb-4">
-            {[1, 2, 3, 4, 5].map((episode) => (
-              <div
-                key={episode}
-                className="min-w-[200px] bg-neutral-900 rounded-lg overflow-hidden"
-              >
-                <div className="h-32 bg-gray-800 flex items-center justify-center">
-                  <Film className="w-10 h-10 text-gray-600" />
-                </div>
-                <p className="p-3 text-sm text-gray-300">
-                  Episode {episode}: Title here
-                </p>
+        {/* Episodes (no scroll, full width) */}
+        <div className="relative z-10 flex flex-wrap gap-5">
+          {[1, 2, 3, 4, 5].map((episode) => (
+            <div
+              key={episode}
+              className="w-[200px] bg-neutral-900 rounded-lg overflow-hidden"
+            >
+              <div className="h-32 bg-gray-800 flex items-center justify-center">
+                <Film className="w-10 h-10 text-gray-600" />
               </div>
-            ))}
-          </div>
+              <p className="p-3 text-sm text-gray-300">
+                Episode {episode}: Title here
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
