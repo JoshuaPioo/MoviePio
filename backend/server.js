@@ -1,25 +1,24 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
+import authRoutes from "./src/routes/authRoutes.js";
+import movieRoutes from "./src/routes/movieRoutes.js";
 
-dotenv.config(); // Load .env before using process.env
+
+dotenv.config();
 
 const app = express();
-
-// Middleware
+app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB Atlas
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log("✅ Connected to MongoDB Atlas"))
-  .catch((error) => console.error("❌ MongoDB connection error:", error));
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// Example route (you can delete or modify)
-app.get("/", (req, res) => {
-  res.send("🎬 Movie backend is running!");
-});
+app.use("/api/auth", authRoutes);
+app.use("/api/movies", movieRoutes);
 
-// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
