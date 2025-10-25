@@ -1,10 +1,15 @@
-import React from 'react'
-import Home from './pages/Home'
+import React from "react";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 function App() {
+  const token = localStorage.getItem("token");
+
   return (
-    <Home/>
-  )
+    <>
+      {token ? <Home /> : <Login />}
+    </>
+  );
 }
 
-export default App
+export default App;
