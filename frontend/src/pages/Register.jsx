@@ -1,53 +1,69 @@
 import React, { useState } from "react";
+import { registerUser } from "../api/api";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../api/api";
 
-function Login({ setToken }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function Register() {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = await loginUser({ email, password });
 
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-      setToken(data.token);
-      setMessage("✅ Login successful!");
-      setTimeout(() => navigate("/home"), 1000);
+    const data = await registerUser(formData);
+
+    if (data.user) {
+      setMessage("✅ Registration successful! Redirecting to login...");
+      setTimeout(() => navigate("/"), 1500);
     } else {
-      setMessage(data.message || "❌ Login failed");
+      setMessage(data.message || "❌ Registration failed");
     }
   };
 
-  const registerRedirect = () => {
-    navigate("/register");
-  };
+  const loginRedirect = () => navigate("/");
 
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 w-[360px] shadow-2xl text-white">
         <h2 className="text-2xl font-semibold mb-6 text-center">
-          🎬 Movie Admin Login
+          📝 Create an Account
         </h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
+            type="text"
+            name="username"
+            placeholder="Enter your username"
+            value={formData.username}
+            onChange={handleChange}
+            className="p-3 rounded-md bg-white/20 placeholder-gray-300 text-white outline-none focus:ring-2 focus:ring-red-500"
+            required
+          />
+
+          <input
             type="email"
+            name="email"
             placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={handleChange}
             className="p-3 rounded-md bg-white/20 placeholder-gray-300 text-white outline-none focus:ring-2 focus:ring-red-500"
             required
           />
 
           <input
             type="password"
+            name="password"
             placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleChange}
             className="p-3 rounded-md bg-white/20 placeholder-gray-300 text-white outline-none focus:ring-2 focus:ring-red-500"
             required
           />
@@ -56,20 +72,18 @@ function Login({ setToken }) {
             type="submit"
             className="mt-2 bg-red-500 hover:bg-red-600 transition duration-200 text-white font-semibold py-2 rounded-md"
           >
-            Login
+            Register
           </button>
         </form>
 
         <div className="mt-4 text-center">
-          <p className="text-gray-300">
-            Don’t have an account?{" "}
-            <button
-              onClick={registerRedirect}
-              className="text-red-400 hover:text-red-500 underline font-medium"
-            >
-              Create here
-            </button>
-          </p>
+          <p className="text-gray-300 text-sm">Already have an account?</p>
+          <button
+            onClick={loginRedirect}
+            className="text-red-400 hover:text-red-300 font-medium mt-1"
+          >
+            Login here
+          </button>
         </div>
 
         {message && (
@@ -86,4 +100,4 @@ function Login({ setToken }) {
   );
 }
 
-export default Login;
+export default Register;

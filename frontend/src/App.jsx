@@ -1,34 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Register from "./pages/Register";
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem("token"));
-  const navigate = useNavigate();
+  const [token, setToken] = useState(() => localStorage.getItem("token"));
 
-  // Update token when it changes in localStorage
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setToken(localStorage.getItem("token"));
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
-
-  // Automatically redirect when token changes
+  // Whenever token changes, update localStorage
   useEffect(() => {
     if (token) {
-      navigate("/home");
+      localStorage.setItem("token", token);
     } else {
-      navigate("/");
+      localStorage.removeItem("token");
     }
-  }, [token, navigate]);
+  }, [token]);
 
   return (
     <Routes>
-      <Route path="/" element={!token ? <Login setToken={setToken} /> : <Navigate to="/home" replace />} />
-      <Route path="/home" element={token ? <Home /> : <Navigate to="/" replace />} />
+      {/* If not logged in → show Login page */}
+      <Route
+        path="/"
+        element={!token ? <Login setToken={setToken} /> : <Navigate to="/home" replace />}
+      />
+
+      {/* If logged in → show Home, else redirect */}
+      <Route
+        path="/home"
+        element={token ? <Home /> : <Navigate to="/" replace />}
+      />
+
+      {/* Register page is always accessible */}
+      <Route path="/register" element={<Register />} />
     </Routes>
   );
 }
