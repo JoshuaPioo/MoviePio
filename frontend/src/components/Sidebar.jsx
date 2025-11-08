@@ -1,9 +1,10 @@
 import React from "react";
 import { Play, Film } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 
 function MovieDashboard() {
-  
+
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -11,6 +12,10 @@ function MovieDashboard() {
     window.location.replace("/"); // Replace the URL and navigate to root
     window.location.reload(); // Refresh the page
 };
+
+ const handleNavigation = (path) => {
+    navigate(path); // Navigate to the specified path
+  };
 
 
   return (
@@ -20,7 +25,7 @@ function MovieDashboard() {
           <h1 className="text-3xl font-bold tracking-wide">MovieApp</h1>
           <ul className="space-y-6">
             <li className="text-xl hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded">Home</li>
-            <li className="text-xl hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded">Browse</li>
+            <li className="text-xl hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded"  onClick={() => handleNavigation("/Search")}>Browse</li>
             <li className="text-xl hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded">Trending</li>
             <li className="text-xl hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded">Saved</li>
             <li className="text-xl hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded">Playlist</li>

@@ -3,11 +3,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
+import Search from "./components/Search"; // Correct import path
 
 function App() {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
 
-  // Whenever token changes, update localStorage
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", token);
@@ -18,20 +18,10 @@ function App() {
 
   return (
     <Routes>
-      {/* If not logged in → show Login page */}
-      <Route
-        path="/"
-        element={!token ? <Login setToken={setToken} /> : <Navigate to="/home" replace />}
-      />
-
-      {/* If logged in → show Home, else redirect */}
-      <Route
-        path="/home"
-        element={token ? <Home /> : <Navigate to="/" replace />}
-      />
-
-      {/* Register page is always accessible */}
+      <Route path="/" element={!token ? <Login setToken={setToken} /> : <Navigate to="/home" replace />} />
+      <Route path="/home" element={token ? <Home /> : <Navigate to="/" replace />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/search" element={<Search />} /> {/* Ensure this route exists */}
     </Routes>
   );
 }
