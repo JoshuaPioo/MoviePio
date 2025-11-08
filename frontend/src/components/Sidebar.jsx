@@ -1,12 +1,15 @@
 import React from "react";
 import { Play, Film } from "lucide-react";
 
+
 function MovieDashboard() {
   
 
   const handleLogout = () => {
-  localStorage.removeItem("token");
-  window.dispatchEvent(new Event("storage")); // ✅ triggers re-render in App
+    localStorage.removeItem("token");
+    window.dispatchEvent(new Event("storage")); // triggers re-render in App
+    window.location.replace("/"); // Replace the URL and navigate to root
+    window.location.reload(); // Refresh the page
 };
 
 
