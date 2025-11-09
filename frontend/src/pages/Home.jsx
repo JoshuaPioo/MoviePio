@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar.jsx';
-import { Play, Film } from 'lucide-react';
+import { Play, Film, Search } from 'lucide-react';
 import aot from '../assets/aot.jpg';
 
 function Home() {
+  const [query, setQuery] = useState('');
+
+  const handleSearch = () => {
+    alert(`Searching for: ${query}`);
+    // In a real app, you'd filter or fetch data here.
+  };
+
   return (
     <div className="flex h-screen w-screen overflow-hidden">
       <Sidebar />
@@ -18,8 +25,27 @@ function Home() {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        {/* 🟢 Black gradient overlay */}
+        {/* Black gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
+
+        {/* Top bar with search */}
+        <div className="relative z-10 flex justify-end mb-6">
+          <div className="flex items-center bg-black/50 backdrop-blur-md rounded-full px-4 py-2 w-72">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="bg-transparent outline-none flex-grow text-white placeholder-gray-400"
+            />
+            <button
+              onClick={handleSearch}
+              className="ml-2 text-gray-300 hover:text-white transition"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
 
         {/* Main content */}
         <div className="relative z-10 max-w-5xl">
@@ -58,7 +84,7 @@ function Home() {
           </div>
         </div>
 
-        {/* Episodes (no scroll, full width) */}
+        {/* Episodes */}
         <div className="relative z-10 flex flex-wrap gap-5">
           {[1, 2, 3, 4, 5].map((episode) => (
             <div

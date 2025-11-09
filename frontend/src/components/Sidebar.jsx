@@ -25,7 +25,6 @@ function MovieDashboard() {
           <h1 className="text-3xl font-bold tracking-wide">MovieApp</h1>
           <ul className="space-y-6">
             <li className="text-xl hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded">Home</li>
-            <li className="text-xl hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded"  onClick={() => handleNavigation("/Search")}>Browse</li>
             <li className="text-xl hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded">Trending</li>
             <li className="text-xl hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded">Saved</li>
             <li className="text-xl hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded">Playlist</li>
